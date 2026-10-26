@@ -6,7 +6,6 @@
 
 <p align="center">
   <a href="https://bishaleyyy.github.io/ReelFrame/">🌐 Live Demo</a> ·
-  <a href="https://github.com/Bishaleyyy/ReelFrame">📂 Source Code</a>
 </p>
 
 ---
