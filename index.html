@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>ReelFrame Creator Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Icon sprite: every icon is reused with <use href="#i-name"> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 20h16"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m21 16-5-5-8 9"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 10 6-3v10l-6-3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M4 20h16"/></symbol>
+  </svg>
+
+  <header class="nav">
+    <div class="logo"><span class="mark"></span>ReelFrame</div>
+    <span class="badge">Creator Studio</span>
+  </header>
+
+  <section class="hero">
+    <h1>Your media. Any frame.</h1>
+    <p>Resize photos and videos for Reels, YouTube and feed posts. Preview the frame, then export it. Your files never leave this device.</p>
+  </section>
+
+  <main class="workspace">
+    <!-- Left column: settings -->
+    <aside class="panel">
+      <h2>Settings</h2>
+      <fieldset id="settings">
+        <legend class="sr">Studio settings</legend>
+
+        <div class="tabs" role="tablist" aria-label="Media type">
+          <button class="tab active" type="button" role="tab" aria-selected="true" data-type="photo"><svg class="icon" aria-hidden="true"><use href="#i-photo"/></svg>Photo</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-type="video"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg>Video</button>
+        </div>
+
+        <label class="drop" id="drop">
+          <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>
+          <strong id="dropTitle">Drop a photo here or browse</strong>
+          <small id="dropHint">JPG, PNG or WebP</small>
+          <input class="sr" type="file" id="fileInput" accept="image/*">
+        </label>
+
+        <dl class="info" aria-label="Selected file">
+          <div><dt>File</dt><dd id="fiName">No file selected</dd></div>
+          <div><dt>Dimensions</dt><dd id="fiDims">&mdash;</dd></div>
+          <div id="fiDurRow" hidden><dt>Duration</dt><dd id="fiDur">&mdash;</dd></div>
+        </dl>
+
+        <div class="field">
+          <p class="label">Aspect ratio</p>
+          <div class="presets" role="group" aria-label="Aspect ratio presets">
+            <button class="preset active" type="button" data-ratio="9/16" aria-pressed="true"><i class="shape" style="--r: 9/16"></i><strong>9:16</strong><small>Reels, TikTok, Shorts</small></button>
+            <button class="preset" type="button" data-ratio="16/9" aria-pressed="false"><i class="shape" style="--r: 16/9"></i><strong>16:9</strong><small>YouTube, landscape</small></button>
+            <button class="preset" type="button" data-ratio="1/1" aria-pressed="false"><i class="shape" style="--r: 1/1"></i><strong>1:1</strong><small>Square post</small></button>
+            <button class="preset" type="button" data-ratio="4/5" aria-pressed="false"><i class="shape" style="--r: 4/5"></i><strong>4:5</strong><small>Portrait post</small></button>
+          </div>
+          <small class="hint">Common starting points, not official platform requirements.</small>
+        </div>
+
+        <div class="field">
+          <p class="label">Resize mode</p>
+          <div class="row" role="group" aria-label="Resize mode">
+            <button class="chip active" type="button" data-mode="contain" aria-pressed="true">Fit</button>
+            <button class="chip" type="button" data-mode="cover" aria-pressed="false">Fill / Crop</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <p class="label">Background for empty space (Fit mode)</p>
+          <div class="row" role="group" aria-label="Background colour">
+            <button class="swatch active" type="button" data-bg="#0B1226" style="--c:#0B1226" aria-label="Navy" aria-pressed="true"></button>
+            <button class="swatch" type="button" data-bg="#000000" style="--c:#000000" aria-label="Black" aria-pressed="false"></button>
+            <button class="swatch" type="button" data-bg="#1B2233" style="--c:#1B2233" aria-label="Slate" aria-pressed="false"></button>
+          </div>
+        </div>
+      </fieldset>
+    </aside>
+
+    <!-- Right column: preview and export -->
+    <div class="main-col">
+      <section class="panel" aria-labelledby="pvTitle">
+        <div class="panel-head">
+          <h2 id="pvTitle">Preview</h2>
+          <span class="badge" id="bRatio">9:16</span>
+          <span class="badge" id="bSize">608 &times; 1080</span>
+          <span class="badge accent" id="bMode">Fit</span>
+          <button class="btn ghost" id="resetBtn" type="button"><svg class="icon" aria-hidden="true"><use href="#i-reset"/></svg>Reset</button>
+        </div>
+        <div class="stage">
+          <div class="frame" id="frame">
+            <div class="empty" id="empty">
+              <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>
+              <p id="emptyText">Your photo will appear here</p>
+            </div>
+            <img id="previewImg" alt="Selected photo preview" hidden>
+            <video id="previewVideo" controls playsinline preload="auto" hidden></video>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel export" aria-labelledby="exTitle">
+        <h2 id="exTitle">Export</h2>
+        <dl class="specs">
+          <div><dt>Media</dt><dd id="exMedia">Photo</dd></div>
+          <div><dt>Ratio</dt><dd id="exRatio">9:16</dd></div>
+          <div><dt>Output</dt><dd id="exSize">608 &times; 1080</dd></div>
+          <div><dt>Format</dt><dd id="exFormat">PNG</dd></div>
+        </dl>
+        <div class="actions">
+          <button class="btn primary" id="exportBtn" type="button" disabled><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span id="exportLabel">Download Image</span></button>
+          <button class="btn ghost" id="cancelBtn" type="button" hidden>Cancel export</button>
+        </div>
+        <progress id="progress" max="1" value="0" aria-label="Export progress" hidden></progress>
+        <p class="status" id="status" role="status">Choose a photo to get started.</p>
+        <p class="note" id="note" hidden></p>
+      </section>
+    </div>
+  </main>
+
+  <footer>ReelFrame runs entirely in your browser. Nothing is uploaded.</footer>
+  <script src="script.js"></script>
+</body>
+</html>
